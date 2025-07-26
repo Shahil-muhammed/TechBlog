@@ -3,23 +3,32 @@
 
 {# ================== META TITLE & DESCRIPTION ================== #}
 {% block metatitle %}
-  <title>{{ featured_blog.seo_title|default:featured_blog.title|default:"Technimia Blogs" }}</title>
+  <title>
+    {% if featured_blog %}
+      {{ featured_blog.seo_title|default:featured_blog.title }}
+    {% else %}
+      Technimia Blogs
+    {% endif %}
+  </title>
 {% endblock %}
 
 {% block metadescription %}
-  <meta name="description" content="{{ featured_blog.meta_description|default:featured_blog.content|striptags|truncatewords:25|default:'Explore insightful tech blogs at Technimia.' }}">
-
-  {% if featured_blog.image %}
-    <meta property="og:title" content="{{ featured_blog.title }}">
-    <meta property="og:description" content="{{ featured_blog.content|striptags|truncatewords:25 }}">
-    <meta property="og:image" content="{{ featured_blog.image.url }}">
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="{{ request.build_absolute_uri }}">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ featured_blog.title }}">
-    <meta name="twitter:description" content="{{ featured_blog.content|striptags|truncatewords:25 }}">
-    <meta name="twitter:image" content="{{ featured_blog.image.url }}">
+  {% if featured_blog %}
+    <meta name="description" content="{{ featured_blog.meta_description|default:featured_blog.content|striptags|truncatewords:25 }}">
+    
+    {% if featured_blog.image %}
+      <meta property="og:title" content="{{ featured_blog.title }}">
+      <meta property="og:description" content="{{ featured_blog.content|striptags|truncatewords:25 }}">
+      <meta property="og:image" content="{{ featured_blog.image.url }}">
+      <meta property="og:type" content="article">
+      <meta property="og:url" content="{{ request.build_absolute_uri }}">
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:title" content="{{ featured_blog.title }}">
+      <meta name="twitter:description" content="{{ featured_blog.content|striptags|truncatewords:25 }}">
+      <meta name="twitter:image" content="{{ featured_blog.image.url }}">
+    {% endif %}
+  {% else %}
+    <meta name="description" content="Explore insightful tech blogs at Technimia.">
   {% endif %}
 {% endblock %}
 

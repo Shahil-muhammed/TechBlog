@@ -61,7 +61,7 @@ def forgot_password_view(request):
         if user:
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
-            reset_link = request.build_absolute_uri(f"/reset-password/{uid}/{token}/")
+            reset_link = request.build_absolute_uri(f"/accounts/reset-password/{uid}/{token}/")
 
             # Send email
             send_mail(

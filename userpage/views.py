@@ -76,3 +76,6 @@ def blog_list_partial(request):
         'has_next': page_obj.has_next(),
         'next_page': page + 1,
     })
+
+def home(request):
+    return render(request,'home/home.html')

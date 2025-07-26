@@ -1,0 +1,80 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block metatitle %}
+  <title>Welcome to Technimia — Your Tech Growth Partner</title>
+{% endblock %}
+
+{% block metadescription %}
+  <meta name="description" content="Technimia is a modern tech startup founded in 2025. We specialize in web development, cloud support, ad solutions, and digital strategy.">
+{% endblock %}
+
+{% block body %}
+<!-- Full-page layout with background -->
+<div class="relative min-h-screen" style="font-family: 'Stardos Stencil', serif;">
+
+  <!-- Background Image -->
+  <div class="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+       style="background-image: url('{% static 'images/bg.jpg' %}');">
+  </div>
+
+  <!-- Foreground Content -->
+  <div class="relative z-10">
+
+    <!-- Hero Section -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center bg-white/90 rounded-3xl p-6 sm:p-10 shadow-lg backdrop-blur-sm">
+        <h2 class="text-xl sm:text-2xl text-gray-800 mb-2 tracking-wide">Welcome to</h2>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl text-gray-900 leading-tight">Technimia</h1>
+        <p class="text-base sm:text-lg text-gray-700 mt-4">
+          A bold tech startup launched in 2025, empowering your digital presence with innovative web solutions, cloud support, ad strategy, and industry best practices.
+        </p>
+        <a href="{% url 'library' %}" class="inline-block mt-6 sm:mt-8 bg-gray-800 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl text-base sm:text-lg font-semibold shadow hover:bg-gray-600 transition">
+          Explore Our Blog
+        </a>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-6xl mx-auto grid gap-6 sm:gap-8 md:gap-12 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 text-center">
+        <!-- Web Creation -->
+        <div class="bg-white/90 backdrop-blur-sm text-gray-800 p-6 sm:p-8 rounded-3xl shadow-md hover:shadow-xl transition">
+          <h3 class="text-xl sm:text-2xl font-bold mb-3">Web Creation</h3>
+          <p class="text-sm sm:text-base">
+            We craft sleek, modern websites that deliver performance, responsiveness, and business results.
+          </p>
+        </div>
+        <!-- Cloud Support -->
+        <div class="bg-white/90 backdrop-blur-sm text-gray-800 p-6 sm:p-8 rounded-3xl shadow-md hover:shadow-xl transition">
+          <h3 class="text-xl sm:text-2xl font-bold mb-3">Cloud Support</h3>
+          <p class="text-sm sm:text-base">
+            From deployment to optimization — we make cloud infrastructure work smarter for your business.
+          </p>
+        </div>
+        <!-- Ad & Analytics -->
+        <div class="bg-white/90 backdrop-blur-sm text-gray-800 p-6 sm:p-8 rounded-3xl shadow-md hover:shadow-xl transition">
+          <h3 class="text-xl sm:text-2xl font-bold mb-3">Ad & Analytics</h3>
+          <p class="text-sm sm:text-base">
+            Drive ROI with targeted ads and in-depth performance analysis — powered by data.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Technimia -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center bg-white/90 text-gray-800 rounded-3xl p-6 sm:p-10 shadow-md backdrop-blur-sm">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6">Why Choose Technimia?</h2>
+        <p class="text-base sm:text-lg leading-relaxed">
+          We're not just service providers — we're partners in your growth journey. Every line of code, every campaign, and every cloud deployment is built with clarity, speed, and your vision in mind.
+        </p>
+        <a href="{% url 'library' %}" class="inline-block mt-6 text-blue-800 hover:text-blue-900 text-base sm:text-lg font-medium underline underline-offset-4">
+          Read Our Insights →
+        </a>
+      </div>
+    </section>
+
+  </div>
+</div>
+{% endblock %}
