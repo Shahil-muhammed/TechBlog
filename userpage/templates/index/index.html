@@ -1,0 +1,116 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{# ================== META TITLE & DESCRIPTION ================== #}
+{% block metatitle %}
+  <title>{{ featured_blog.seo_title|default:featured_blog.title|default:"Technimia Blogs" }}</title>
+{% endblock %}
+
+{% block metadescription %}
+  <meta name="description" content="{{ featured_blog.meta_description|default:featured_blog.content|striptags|truncatewords:25|default:'Explore insightful tech blogs at Technimia.' }}">
+
+  {% if featured_blog.image %}
+    <meta property="og:title" content="{{ featured_blog.title }}">
+    <meta property="og:description" content="{{ featured_blog.content|striptags|truncatewords:25 }}">
+    <meta property="og:image" content="{{ featured_blog.image.url }}">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ featured_blog.title }}">
+    <meta name="twitter:description" content="{{ featured_blog.content|striptags|truncatewords:25 }}">
+    <meta name="twitter:image" content="{{ featured_blog.image.url }}">
+  {% endif %}
+{% endblock %}
+
+{# ================== MAIN BODY ================== #}
+{% block body %}
+<div class="py-10 px-4 max-w-5xl mx-auto space-y-12">
+
+  {% if query and not featured_blog %}
+    <div class="text-center bg-yellow-100 text-yellow-800 py-4 px-6 rounded-lg shadow">
+      No results found for "<strong>{{ query }}</strong>"
+    </div>
+  {% endif %}
+
+  {% if featured_blog %}
+    <!-- Featured Blog Post -->
+    <article class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 transition hover:shadow-lg">
+      {% if featured_blog.image %}
+        <div class="w-full flex justify-center items-center bg-gray-100">
+          <img 
+            src="{{ featured_blog.image.url }}" 
+            alt="{{ featured_blog.title }}" 
+            class="max-w-full h-auto rounded-lg shadow-sm" 
+          />
+        </div>
+      {% endif %}
+
+      <div class="p-6 sm:p-8">
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-4">{{ featured_blog.title }}</h1>
+        <div class="prose prose-lg max-w-none text-gray-700">
+          {{ featured_blog.content|safe }}
+        </div>
+      </div>
+    </article>
+
+    {% if featured_blog.get_youtube_embed_id %}
+      <section>
+        <h2 class="text-2xl font-semibold text-gray-800 mt-6 mb-4">Watch: Related YouTube Tutorial</h2>
+        <div class="aspect-w-16 aspect-h-9 rounded-xl overflow-hidden shadow-md">
+          <iframe 
+            src="https://www.youtube.com/embed/{{ featured_blog.get_youtube_embed_id }}" 
+            class="w-full h-full" frameborder="0" allowfullscreen>
+          </iframe>
+        </div>
+      </section>
+    {% endif %}
+
+    <!-- Comments Section -->
+    <section class="bg-white p-6 sm:p-8 rounded-xl shadow border border-gray-200">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-6">Comments</h2>
+
+      <div class="space-y-5">
+        {% for comment in comments %}
+          <div class="border-b pb-3">
+            <p class="font-medium text-gray-900">{{ comment.user.username }}</p>
+            <p class="text-sm text-gray-600 mt-1">{{ comment.text }}</p>
+          </div>
+        {% empty %}
+          <p class="text-gray-500">No comments yet.</p>
+        {% endfor %}
+      </div>
+
+      {% if user.is_authenticated %}
+        <form method="POST" action="{% url 'add_comment' featured_blog.uid %}" class="mt-6 space-y-4">
+          {% csrf_token %}
+          <label class="block text-gray-700 font-medium">Add a comment</label>
+          <textarea name="comment" rows="3" required class="w-full border rounded-md p-3"></textarea>
+          <button type="submit" class="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700">
+            Post Comment
+          </button>
+        </form>
+      {% else %}
+        <p class="text-gray-600 mt-4">
+          You must <a href="{% url 'signin' %}" class="text-blue-600 underline">log in</a> to post a comment.
+        </p>
+      {% endif %}
+    </section>
+  {% endif %}
+
+  <!-- Explore More Blogs -->
+  {% if featured_blog %}
+    <section>
+      <h2 class="text-2xl font-semibold text-gray-800 mb-6">Explore More Blogs</h2>
+      <div id="blog-list"
+           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+           hx-get="{% url 'blog_list_partial' %}?page=1{% if query %}&q={{ query }}{% endif %}"
+           hx-trigger="load"
+           hx-swap="innerHTML"
+           hx-target="#blog-list">
+      </div>
+    </section>
+  {% endif %}
+
+</div>
+{% endblock body %}

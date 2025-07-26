@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign In</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-center mb-6">Sign In</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="text-sm text-red-500 mb-2">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            <div>
+                <label class="block text-sm font-medium">Username</label>
+                <input type="text" name="username" id="username" required class="w-full px-3 py-2 border rounded-md">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium">Password</label>
+                <input type="password" name="password" id="password" required class="w-full px-3 py-2 border rounded-md">
+            </div>
+
+            <div class="relative h-12">
+                <button type="submit" id="submit"
+                    class="absolute left-1/2 transform -translate-x-1/2 bg-blue-600 text-white py-2 px-4 rounded-md transition-all duration-300">
+                    Sign In
+                </button>   
+            </div>
+
+        </form>
+
+        <div class="mt-4 text-center text-sm">
+            <p><a href="{% url 'forgot_password' %}" class="text-blue-600 hover:underline">Forgot Password?</a></p>
+            <p class="mt-2">Don't have an account? 
+                <a href="{% url 'signup' %}" class="text-blue-600 hover:underline">Sign Up</a>
+            </p>
+        </div>
+    </div>
+    <script src="{% static 'js/logincontrol.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+{% for blog in blogs %}
+  <a href="{% url 'blog_detail' blog.uid %}" class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition overflow-hidden block">
+    {% if blog.image %}
+      <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="h-40 w-full object-cover">
+    {% endif %}
+    <div class="p-5">
+      <h3 class="text-lg font-bold text-gray-800 mb-2">{{ blog.title }}</h3>
+      <p class="text-sm text-gray-600 line-clamp-3">
+        {{ blog.content|striptags|truncatewords:25 }}
+      </p>
+    </div>
+  </a>
+{% endfor %}
+
+{% if has_next %}
+  <div id="load-more-container" class="text-center mt-6">
+    <button
+      hx-get="{% url 'blog_list_partial' %}?page={{ next_page }}"
+      hx-target="#load-more-container"
+      hx-swap="outerHTML"
+      class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+    >
+      Load More
+    </button>
+  </div>
+{% endif %}
